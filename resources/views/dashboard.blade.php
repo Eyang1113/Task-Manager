@@ -78,7 +78,7 @@
     </x-slot>
 
     <div class="flex">
-        <aside class="border w-64 bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-white min-h-screen p-10 rounded-lg shadow-md">
+        <aside class="w-64 bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-white min-h-screen p-10 rounded-lg shadow-md">
             <!--<h2 class="text-xl font-bold mb-4">Navigation</h2>-->
             <nav class="space-y-2">
                 <a href="{{ route('dashboard') }}" class="block px-3 py-2 rounded hover:bg-gray-300 dark:hover:bg-gray-700 {{ request()->is('dashboard') ? 'bg-gray-300 dark:bg-gray-700' : '' }}">
