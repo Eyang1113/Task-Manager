@@ -26,7 +26,7 @@
                             <tr>
                                 <th class="px-4 py-2 border-b">Task ID</th>
                                 <th class="px-4 py-2 border-b">Event</th>
-                                <th class="px-4 py-2 border-b">Date</th>
+                                <th class="px-4 py-2 border-b">Commit Date</th>
                                 <th class="px-4 py-2 border-b">Old Values</th>
                                 <th class="px-4 py-2 border-b">New Values</th>
                             </tr>
