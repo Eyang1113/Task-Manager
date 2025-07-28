@@ -34,7 +34,7 @@
                     data.tasks.forEach(task => {
                         const taskElement = document.createElement('p');
                         taskElement.className = 'px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer';
-                        taskElement.textContent = `Reminder: ${task.title} due at ${task.due_date}`;
+                        taskElement.textContent = `Reminder: Task "${task.title}" due at ${task.due_date}`;
                         dropdown.appendChild(taskElement);
                     });
                 } else {
