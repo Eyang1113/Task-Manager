@@ -126,7 +126,7 @@
                             </form>
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6 text-gray-900 dark:text-gray-100">
-                            @foreach($tasks as $task)
+                            @forelse($tasks as $task)
                                 <div class="bg-gray-100 dark:bg-gray-700 p-6 rounded-lg shadow-md">
                                     <h2 class="text-xl font-extrabold mb-2">{{ $task->title }}</h2>
                                     <p class="text-sm font-semibold">Description: </p>
@@ -158,7 +158,11 @@
                                         </a>
                                     </div>
                                 </div>
-                            @endforeach
+                            @empty
+                                <div class="bg-gray-100 dark:bg-gray-700 p-6 rounded-lg shadow-md">
+                                    <h2>No tasks found.</h2>
+                                </div>
+                            @endforelse
                         </div>
                     </div>
                 </div>
