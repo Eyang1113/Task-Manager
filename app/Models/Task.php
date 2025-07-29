@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class Task extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
+    use HasFactory, Notifiable;
     protected $fillable = ['user_id', 'title', 'description', 'due_date', 'status', 'priority'];
 
     public function user(){
