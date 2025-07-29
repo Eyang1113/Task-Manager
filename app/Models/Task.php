@@ -11,10 +11,14 @@ class Task extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
     use HasFactory, Notifiable;
-    protected $fillable = ['user_id', 'title', 'description', 'due_date', 'status', 'priority'];
+    protected $fillable = ['user_id', 'title', 'description', 'due_date', 'status', 'priority', 'category_id'];
 
     public function user(){
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function category(){
+        return $this->belongsTo(Category::class, 'category_id');
     }
 
     public function fileRelation(){

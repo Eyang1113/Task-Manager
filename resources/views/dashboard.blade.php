@@ -146,6 +146,9 @@
                                     </div>
                                     <p class="text-sm text-gray-600 dark:text-gray-300 pt-1 font-semibold">Due: {{ $task['due_date'] }}</p>
                                     <p class="text-sm text-gray-600 dark:text-gray-300 font-semibold">
+                                        Category: {{ $task->category->category_name}}
+                                    </p>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300 font-semibold">
                                         Status: {{ Task::STATUS_OPTIONS[$task->status] ?? $task->status }}
                                     </p>
                                     <p class="text-sm text-gray-600 dark:text-gray-300 font-semibold">

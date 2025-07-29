@@ -31,6 +31,16 @@
                                class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white">
                     </div>
                     <div>
+                        <label for="category" class="block text-sm font-medium">Category</label>
+                        <select name="category" id="category" required
+                                class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white">
+                            <option value="" disabled selected>Select a category</option>
+                            @foreach($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div>
                         <label class="block text-sm font-medium mb-2">Status</label>
                         <div class="flex gap-x-4">
                             <label class="inline-flex items-center space-x-1">

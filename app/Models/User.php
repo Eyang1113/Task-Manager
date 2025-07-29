@@ -53,4 +53,8 @@ class User extends Authenticatable
     public function auditRelation(){
         return $this->hasMany(Audit::class, 'user_id');
     }
+
+    public function categoryRelation(){
+        return $this->hasMany(Category::class, 'user_id');
+    }
 }

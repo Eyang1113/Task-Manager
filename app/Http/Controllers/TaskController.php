@@ -12,7 +12,14 @@ use SweetAlert2\Laravel\Swal;
 class TaskController extends Controller
 {
     public function addTask(){
-        return view('addTask');
+        $user = auth()->user();
+        $query = $user->categoryRelation();
+
+        $categories = $query->get();
+
+        return view('addTask', [
+            'categories' => $categories,
+        ]);
     }
 
     public function createTask(Request $request)
@@ -21,6 +28,7 @@ class TaskController extends Controller
             'title' => ['required', 'max:255'],
             'description' => ['required'],
             'due_date' => ['required'],
+            'category' => ['required'],
             'status' => ['nullable'],
             'priority' => ['nullable'],
             'pdf' => ['nullable', 'file', 'mimes:pdf', 'max:5120']
@@ -30,6 +38,7 @@ class TaskController extends Controller
         $incomingData['title'] = strip_tags($incomingData['title']);
         $incomingData['description'] = strip_tags($incomingData['description']);
         $incomingData['due_date'] = strip_tags($incomingData['due_date']);
+        $incomingData['category_id']=strip_tags($incomingData['category']);
         $incomingData['status'] = strip_tags($incomingData['status']);
         $incomingData['priority'] = strip_tags($incomingData['priority']);
         $incomingData['user_id'] = auth()->id();

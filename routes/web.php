@@ -20,6 +20,9 @@ Route::middleware('auth')->group(function () {
 
     //Dashboard control
     Route::get('/dashboard', [DashboardController::class, 'dashboardView'])->name('dashboard');
+    Route::get('/customCategory', [DashboardController::class, 'customCategory'])->name('customCategory');
+    Route::post('/createCategory', [DashboardController::class, 'createCategory'])->name('create.category');
+    Route::get('/deleteCategory/{category}', [DashboardController::class, 'deleteCategory'])->name('delete.category');
 
     //Task control
     Route::get('/addTask', [TaskController::class, 'addTask'])->name('addTask');
