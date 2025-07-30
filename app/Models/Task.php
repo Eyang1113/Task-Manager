@@ -25,6 +25,10 @@ class Task extends Model implements Auditable
         return $this->hasMany(TaskFile::class, 'task_id');
     }
 
+    public function subtaskRelation(){
+        return $this->hasMany(SubTask::class, 'task_id');
+    }
+
     public const STATUS_OPTIONS = [
         'todo' => 'To Do',
         'in_progress' => 'In Progress',

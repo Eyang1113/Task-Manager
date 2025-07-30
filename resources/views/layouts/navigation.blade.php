@@ -41,7 +41,7 @@
                             {{ __('Profile') }}
                         </x-dropdown-link>
                         <x-dropdown-link :href="route('customCategory')">
-                            {{ __('Create Category') }}
+                            {{ __('Manage Category') }}
                         </x-dropdown-link>
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">

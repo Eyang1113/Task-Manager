@@ -9,11 +9,13 @@ use Illuminate\Validation\Rule;
 
 class DashboardController extends Controller
 {
+
     public function dashboardView(Request $request)
     {
         $user = auth()->user();
         $query = $user->taskRelation()->with('fileRelation', 'category');
         $filter = $request->input('filter');
+        $categoryId = $request->input('category_id');
 
         // Apply filtering
         if (in_array($filter, ['todo', 'in_progress', 'done'])) {
@@ -30,11 +32,20 @@ class DashboardController extends Controller
                 ->orderBy('id', 'asc');
         }
 
+        if (!empty($categoryId)) {
+            $query->where('category_id', $categoryId);
+        } else {
+            $query->orderby('priority', 'desc')
+                ->orderBy('id', 'asc');
+        }
+
         $tasks = $query->get();
+        $categories = $user->categoryRelation()->get();
 
         return view('dashboard', [
             'users' => $user,
             'tasks' => $tasks,
+            'categories' => $categories,
         ]);
     }
 
@@ -76,6 +87,6 @@ class DashboardController extends Controller
 
         $category->delete();
 
-        return redirect(route('customCategory'))->with('success', 'Category deleted.');
+        return redirect(route('customCategory'))->with('delete', 'Category "' . $category->category_name . '" deleted.');
     }
 }

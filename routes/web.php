@@ -4,6 +4,7 @@ use App\Http\Controllers\AuditController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReminderController;
+use App\Http\Controllers\SubtaskController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,12 @@ Route::middleware('auth')->group(function () {
     Route::put('/updateTask/{task}', [TaskController::class, 'updateTask'])->name('update.task');
     Route::get('/deleteTask/{task}', [TaskController::class, 'deleteTask'])->name('delete.task');
     Route::get('/deleteFile/{file}', [TaskController::class, 'deleteFile'])->name('delete.file');
+    Route::get('/taskDetail/{task}', [TaskController::class, 'taskDetail'])->name('task.detail');
+
+    //Subtask control
+    Route::post('/createSubtask/{task}', [SubtaskController::class, 'createSubtask'])->name('create.subtask');
+    Route::put('/updateSubtask/{task}', [SubtaskController::class, 'updateSubtask'])->name('update.subtask');
+    Route::get('/deleteSubtask/{task}/{subtask}', [SubtaskController::class, 'deleteSubtask'])->name('delete.subtask');
 
     //Reminder control
     Route::get('/reminder', [ReminderController::class, 'getTask'])->name('reminder');

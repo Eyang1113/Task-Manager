@@ -11,7 +11,7 @@ class AuditController extends Controller
         $user = auth()->user();
         $query = $user->auditRelation();
 
-        $audits = $query->get();
+        $audits = $query->orderBy('id', 'desc')->get();
 
         return view('auditlog', [
             'users' => $user,

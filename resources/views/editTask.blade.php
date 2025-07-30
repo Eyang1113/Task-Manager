@@ -27,26 +27,28 @@
                         <input type="file" name="pdf" accept="application/pdf"
                                class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white">
                     </div>
-                    @if(session('success'))
-                        <div class="bg-green-300 text-black px-4 py-2 rounded mb-4">
-                            {{ session('success') }}
+                    @if(session('delete'))
+                        <div class="bg-red-300 text-black px-4 py-2 rounded mb-4">
+                            {{ session('delete') }}
                         </div>
                     @endif
                     @if($task->fileRelation->count())
-                        <div class="mt-4">
-                            <h4 class="block text-sm font-medium">File Attached:
-                                @foreach($task->fileRelation as $file)
+                        <div class="mt-4 flex items-center flex-wrap gap-2">
+                            <span class="block text-sm font-medium">File Attached:</span>
+                            @foreach($task->fileRelation as $file)
+                                <div class="flex items-center gap-1">
                                     <a href="{{ asset('storage/' . $file->path) }}"
                                        target="_blank"
-                                       class="underline hover:text-blue-400">
+                                       class="underline hover:text-blue-400 text-sm">
                                         {{ $file->filename }}
                                     </a>
-                                    <a href="{{ route('delete.file', ['file' => $file->id]) }}"
-                                       class="inline-flex items-center justify-center ml-1 w-4 h-4 pr-0.5 text-sm font-bold text-white bg-red-500 rounded-full hover:bg-red-600 shadow">
-                                        x
+                                    <a href="{{ route('delete.file', ['file' => $file->id]) }}">
+                                        <img src="{{ asset('image/close.png') }}"
+                                             alt="delete"
+                                             class="w-4 h-4 cursor-pointer">
                                     </a>
-                                @endforeach
-                            </h4>
+                                </div>
+                            @endforeach
                         </div>
                     @endif
                     <div>
@@ -54,6 +56,18 @@
                         <input type="datetime-local" name="due_date" required min="{{ Carbon::now('Asia/Kuala_Lumpur')->format('Y-m-d\TH:i') }}"
                                class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white"
                                value="{{ $task->due_date }}">
+                    </div>
+                    <div>
+                        <label for="category" class="block text-sm font-medium">Category</label>
+                        <select name="category" id="category" required
+                                class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white">
+                            @foreach($categories as $category)
+                                <option value="{{ $category->id }}"
+                                               {{ $task->category_id === $category->id ? 'selected' : ''}}>
+                                    {{ $category->category_name }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                     <div>
                         <label class="block text-sm font-medium mb-2">Status</label>

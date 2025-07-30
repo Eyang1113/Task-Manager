@@ -40,6 +40,7 @@
                                     <td class="px-4 py-2">
                                         Title: {{ $audit->old_values['title'] ?? 'N/A' }}<br>
                                         Description: {{ $audit->old_values['description'] ?? 'N/A' }}<br>
+                                        Category id: {{ $audit->old_values['category_id'] ?? 'N/A' }}<br>
                                         Status: {{ $audit->old_values['status'] ?? 'N/A' }}<br>
                                         Due date: {{ $audit->old_values['due_date'] ?? 'N/A' }}<br>
                                         Priority: {{ $audit->old_values['priority'] ?? 'N/A' }}
@@ -47,6 +48,7 @@
                                     <td class="px-4 py-2">
                                         Title: {{ $audit->new_values['title'] ?? 'N/A' }}<br>
                                         Description: {{ $audit->new_values['description'] ?? 'N/A' }}<br>
+                                        Category id: {{ $audit->new_values['category_id'] ?? 'N/A' }}<br>
                                         Status: {{ $audit->new_values['status'] ?? 'N/A' }}<br>
                                         Due date: {{ $audit->new_values['due_date'] ?? 'N/A' }}<br>
                                         Priority: {{ $audit->new_values['priority'] ?? 'N/A' }}

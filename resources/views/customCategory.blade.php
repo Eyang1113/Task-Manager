@@ -11,9 +11,9 @@
                 <div class="bg-green-300 text-black px-4 py-2 rounded mb-4">
                     {{ session('success') }}
                 </div>
-            @elseif(session('error'))
+            @elseif(session('delete'))
                 <div class="bg-red-300 text-black px-4 py-2 rounded mb-4">
-                    {{ session('error') }}
+                    {{ session('delete') }}
                 </div>
             @endif
             <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">

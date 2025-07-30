@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\SubTask;
 use App\Models\TaskFile;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use SweetAlert2\Laravel\Swal;
 
 class TaskController extends Controller
@@ -22,8 +25,7 @@ class TaskController extends Controller
         ]);
     }
 
-    public function createTask(Request $request)
-    {
+    public function createTask(Request $request){
         $incomingData = $request->validate([
             'title' => ['required', 'max:255'],
             'description' => ['required'],
@@ -62,13 +64,23 @@ class TaskController extends Controller
         return redirect('/dashboard')->with('success', 'Task "' . $incomingData['title'] . '" created successfully.');
     }
 
-    public function editTask(Task $task)
-    {
+    public function editTask(Task $task){
         if ($task->user_id !== auth()->id()) {
             return redirect('/dashboard');
         }
 
-        return view('editTask', ['task' => $task]);
+        //to get the category details
+        $task->load('category');
+
+        //to get the user's categories
+        $user = auth()->user();
+        $query = $user->categoryRelation();
+        $categories = $query->get();
+
+        return view('editTask', [
+            'task' => $task,
+            'categories' => $categories,
+        ]);
     }
 
     public function updateTask(Request $request, Task $task){
@@ -81,6 +93,7 @@ class TaskController extends Controller
             'title' => ['required', 'max:255'],
             'description' => ['required'],
             'due_date' => ['required'],
+            'category' => ['required'],
             'status' => ['required'],
             'priority' => ['required'],
             'pdf' => ['nullable', 'file', 'mimes:pdf', 'max:5120']
@@ -90,6 +103,7 @@ class TaskController extends Controller
         $incomingData['title'] = strip_tags($incomingData['title']);
         $incomingData['description'] = strip_tags($incomingData['description']);
         $incomingData['due_date'] = strip_tags($incomingData['due_date']);
+        $incomingData['category_id']=strip_tags($incomingData['category']);
         $incomingData['status'] = strip_tags($incomingData['status']);
         $incomingData['priority'] = strip_tags($incomingData['priority']);
 
@@ -113,8 +127,7 @@ class TaskController extends Controller
         return redirect('/dashboard')->with('success', 'Task "' . $incomingData['title'] . '" updated successfully.');
     }
 
-    public function deleteTask(Task $task)
-    {
+    public function deleteTask(Task $task){
         // Check if the task belongs to the authenticated user
         if ($task->user_id !== auth()->id()) {
             return redirect('/dashboard');
@@ -130,7 +143,7 @@ class TaskController extends Controller
         // Delete the task
         $task->delete();
 
-        return redirect('/dashboard')->with('delete', 'Task deleted.');
+        return redirect('/dashboard')->with('delete', 'Task "' . $task->title . '" deleted.');
     }
 
     public function deleteFile(TaskFile $file){
@@ -144,8 +157,28 @@ class TaskController extends Controller
 
         $file->delete();
 
-        return redirect()->back()->with('success', 'File deleted.');
+        return redirect()->back()->with('delete', 'File "' . $file->filename . '" deleted.');
     }
 
+    public function taskDetail(Task $task){
+        if ($task->user_id !== auth()->id()) {
+            return redirect('/dashboard');
+        }
 
+        //to get the category details
+        $task->load('category');
+
+        //to get the user's categories
+        $user = auth()->user();
+        $query = $user->categoryRelation();
+        $categories = $query->get();
+        $query2 = $task->subtaskRelation();
+        $subtasks = $query2->orderBy('id')->get();
+
+        return view('taskDetail', [
+            'task' => $task,
+            'categories' => $categories,
+            'subtasks' => $subtasks,
+        ]);
+    }
 }
