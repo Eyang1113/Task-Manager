@@ -89,15 +89,15 @@
                     @if($task->fileRelation->count())
                         <div class="mt-4 flex items-center flex-wrap">
                             <span class="block text-lg font-medium">File Attached:</span>
-                            @foreach($task->fileRelation as $file)
-                                <div class="w-full px-2 py-2 rounded dark:bg-gray-900 border-none dark:text-white">
-                                    <a href="{{ asset('storage/' . $file->path) }}"
-                                       target="_blank"
-                                       class="underline hover:text-blue-400 text-lg font-medium">
-                                        {{ $file->filename }}
-                                    </a>
-                                </div>
-                            @endforeach
+                            <div class="w-full px-2 py-2 rounded dark:bg-gray-900 border-none dark:text-white">
+                                @foreach($task->fileRelation as $file)
+                                        <a href="{{ asset('storage/' . $file->path) }}"
+                                           target="_blank"
+                                           class="underline hover:text-blue-400 text-lg font-medium">
+                                            {{ $file->filename }}
+                                        </a><br>
+                                @endforeach
+                            </div>
                         </div>
                     @endif
                     <div>

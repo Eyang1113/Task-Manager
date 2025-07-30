@@ -161,7 +161,7 @@
                                                 @foreach($task->fileRelation as $file)
                                                     <a href="{{ asset('storage/' . $file->path) }}"
                                                        target="_blank"
-                                                       class="underline hover:text-blue-400 ,mr-1">
+                                                       class="underline mr-2 hover:text-blue-400">
                                                         {{ $file->filename }}
                                                     </a>
                                                 @endforeach
