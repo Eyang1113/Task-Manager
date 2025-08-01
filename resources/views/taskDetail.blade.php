@@ -14,67 +14,27 @@
                     {{ session('delete') }}
                 </div>
             @endif
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 gap-6">
                 <div class="bg-gray-100 dark:bg-gray-700 p-6 rounded-lg shadow-md">
                     <h2 class="text-2xl font-semibold mb-4">Add Subtask</h2>
                     <form method="POST" action="{{ route('create.subtask', ['task' => $task->id]) }}"
                           class="mt-6 space-y-6">
                         @csrf
                         <div>
+                            <label for="description" class="block text-lg font-medium">Subtask Title: </label>
                             <input type="text" name="title" placeholder="Enter subtask title" required
-                                   class="w-full px-4 py-2 rounded border-none focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-900 dark:border-gray-600 dark:text-white">
+                                   class="w-full px-4 py-2 rounded border-none focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-900 dark:text-white">
+                        </div>
+                        <div>
+                            <label for="description" class="block text-lg font-medium">Description: </label>
+                            <textarea name="description" placeholder="Enter the description" required
+                                      class="w-full px-4 py-2 border-none rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-900 dark:text-white"
+                            ></textarea>
                         </div>
                         <div>
                             <button type="submit"
                                     class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded shadow">
                                 Add Subtask
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                <div class="bg-gray-100 dark:bg-gray-700 p-6 rounded-lg shadow-md">
-                    <h2 class="text-2xl font-semibold mb-4">View Subtasks</h2>
-                    <form method="POST" action="{{ route('update.subtask_status', ['task' => $task->id]) }}">
-                        @csrf
-                        @method('PUT')
-                        @if($subtasks->count())
-                            <div class="grid grid-flow-col grid-cols-3 grid-rows-5 gap-y-3 gap-x-6">
-                                @foreach($subtasks as $subtask)
-                                    <label
-                                        class="flex justify-between items-center text-gray-900 dark:text-white cursor-pointer bg-gray-900 p-1 rounded">
-                                        <div class="flex items-center space-x-2">
-                                            <input
-                                                type="checkbox"
-                                                name="subtask[]"
-                                                value="{{ $subtask->id }}"
-                                                {{ $subtask->is_done ? 'checked' : '' }}
-                                                class="form-checkbox h-5 w-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:focus:ring-blue-400 dark:ring-offset-gray-800"
-                                            >
-                                            <span class="text-base">{{ $subtask->title }}</span>
-                                        </div>
-                                        <div class="flex space-x-2 ml-4">
-                                            <a href="{{ route('edit.subtask', ['task' => $task->id, 'subtask' => $subtask->id]) }}">
-                                                <img src="{{ asset('image/edit.png') }}"
-                                                     alt="edit"
-                                                     class="w-4 h-4 cursor-pointer invert">
-                                            </a>
-                                            <a href="{{ route('delete.subtask', ['task' => $task->id, 'subtask' => $subtask->id]) }}">
-                                                <img src="{{ asset('image/close.png') }}"
-                                                     alt="delete"
-                                                     class="w-4 h-4 cursor-pointer">
-                                            </a>
-                                        </div>
-                                    </label>
-                                @endforeach
-                            </div>
-                        @else
-                            <h2 class="text-gray-500 dark:text-gray-400 italic">No Subtask found.</h2>
-                        @endif
-
-                        <div class="flex justify-end mt-6">
-                            <button type="submit"
-                                    class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded shadow transition">
-                                Update Subtask Status
                             </button>
                         </div>
                     </form>
@@ -100,11 +60,11 @@
                             <span class="block text-lg font-medium">File Attached:</span>
                             <div class="w-full px-2 py-2 rounded dark:bg-gray-900 border-none dark:text-white">
                                 @foreach($task->fileRelation as $file)
-                                        <a href="{{ asset('storage/' . $file->path) }}"
-                                           target="_blank"
-                                           class="underline hover:text-blue-400 text-lg font-medium">
-                                            {{ $file->filename }}
-                                        </a><br>
+                                    <a href="{{ asset('storage/' . $file->path) }}"
+                                       target="_blank"
+                                       class="underline hover:text-blue-400 text-lg font-medium">
+                                        {{ $file->filename }}
+                                    </a><br>
                                 @endforeach
                             </div>
                         </div>
@@ -132,6 +92,62 @@
                         <p class="w-full px-2 py-2 rounded dark:bg-gray-900 border-none dark:text-white">
                             {{ Task::PRIORITY_OPTIONS[$task->priority] ?? $task->priority }}
                         </p>
+                    </div>
+                    <div>
+
+                        <label class="block text-lg font-medium">Subtasks: </label>
+                        <table class="border border-red-500 border-collapse">
+                            <tr>
+                                <th class="border border-red-500 px-2 py-1">Status</th>
+                                <th class="border border-red-500 px-2 py-1">Subtask Title</th>
+                                <th class="border border-red-500 px-2 py-1">Description</th>
+                                <th class="border border-red-500 px-2 py-1" colspan="2">Action</th>
+                            </tr>
+                            @if($subtasks->count())
+                                @foreach($subtasks as $subtask)
+                                    <tr>
+                                        <td class="border border-red-500 px-2 py-1">
+                                            <div class="flex items-center space-x-2">
+                                                <input
+                                                    type="checkbox"
+                                                    name="subtask[]"
+                                                    value="0"
+                                                    class="form-checkbox h-5 w-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:focus:ring-blue-400 dark:ring-offset-gray-800"
+                                                >
+                                            </div>
+                                        </td>
+                                        <td class="border border-red-500 px-2 py-1">{{ $subtask->title }}</td>
+                                        <td class="border border-red-500 px-2 py-1">{{ $subtask->description }}</td>
+                                        <td class="border border-red-500 px-2 py-1">
+                                            <a href="{{ route('edit.subtask', ['task' => $task->id, 'subtask' => $subtask->id]) }}">
+                                                <img src="{{ asset('image/edit.png') }}"
+                                                     alt="edit"
+                                                     class="w-4 h-4 cursor-pointer invert">
+                                            </a>
+                                        </td>
+                                        <td class="border border-red-500 px-2 py-1">
+                                            <a href="{{ route('delete.subtask', ['task' => $task->id, 'subtask' => $subtask->id]) }}">
+                                                <img src="{{ asset('image/close.png') }}"
+                                                     alt="delete"
+                                                     class="w-4 h-4 cursor-pointer">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                <tr>
+                                    <td class="border border-red-500 px-2 py-1 italic" colspan="5">
+                                        <button type="submit"
+                                                class="float-right bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded shadow transition">
+                                            Update Subtask Status
+                                        </button>
+                                    </td>
+                                </tr>
+                            @else
+                                <tr>
+                                    <td class="border border-red-500 px-2 py-1 italic" colspan="5">No subtask found</td>
+                                </tr>
+                            @endif
+                        </table>
                     </div>
                 </div>
             </div>

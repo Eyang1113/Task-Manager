@@ -15,9 +15,11 @@ class SubtaskController extends Controller
 
         $incomingData = $request -> validate([
             'title' => ['required'],
+            'description' => ['required'],
         ]);
 
         $incomingData['title'] = strip_tags($incomingData['title']);
+        $incomingData['description'] = strip_tags($incomingData['description']);
         $incomingData['is_done'] = false;
         $incomingData['task_id'] = $task->id;
 
@@ -69,9 +71,11 @@ class SubtaskController extends Controller
 
         $incomingData = $request->validate([
             'title' => ['required'],
+            'description' => ['required'],
         ]);
 
         $incomingData['title'] = strip_tags($incomingData['title']);
+        $incomingData['description'] = strip_tags($incomingData['description']);
 
         $subtask->update($incomingData);
 

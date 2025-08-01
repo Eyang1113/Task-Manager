@@ -15,8 +15,13 @@
                         @method('PUT')
                         <div>
                             <input type="text" name="title" placeholder="Enter subtask title" required
-                                   class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-900 dark:border-gray-600 dark:text-white"
+                                   class="w-full px-4 py-2 rounded border-none focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-900 dark:text-white"
                                    value="{{ $subtask->title }}">
+                        </div>
+                        <div>
+                            <textarea name="description" placeholder="Enter the description" required
+                                      class="w-full px-4 py-2 border-none rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-900 dark:text-white"
+                            >{{ $subtask->description }}</textarea>
                         </div>
                         <div>
                             <button type="submit"
