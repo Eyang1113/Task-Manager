@@ -61,12 +61,12 @@ class TaskController extends Controller
             'title' => 'Task "' . $incomingData['title'] . '" created successfully.',
         ]);
 
-        return redirect('/dashboard')->with('success', 'Task "' . $incomingData['title'] . '" created successfully.');
+        return redirect('dashboard')->with('success', 'Task "' . $incomingData['title'] . '" created successfully.');
     }
 
     public function editTask(Task $task){
         if ($task->user_id !== auth()->id()) {
-            return redirect('/dashboard');
+            return redirect('dashboard');
         }
 
         //to get the category details
@@ -86,7 +86,7 @@ class TaskController extends Controller
     public function updateTask(Request $request, Task $task){
         // Check if the post belongs to the authenticated user
         if ($task->user_id !== auth()->id()) {
-            return redirect('/dashboard');
+            return redirect('dashboard');
         }
 
         $incomingData = $request->validate([
@@ -124,13 +124,13 @@ class TaskController extends Controller
             'title' => 'Task "' . $incomingData['title'] . '" updated successfully.',
         ]);
 
-        return redirect('/dashboard')->with('success', 'Task "' . $incomingData['title'] . '" updated successfully.');
+        return redirect('dashboard')->with('success', 'Task "' . $incomingData['title'] . '" updated successfully.');
     }
 
     public function deleteTask(Task $task){
         // Check if the task belongs to the authenticated user
         if ($task->user_id !== auth()->id()) {
-            return redirect('/dashboard');
+            return redirect('dashboard');
         }
 
         foreach ($task->fileRelation as $file) {
@@ -143,12 +143,12 @@ class TaskController extends Controller
         // Delete the task
         $task->delete();
 
-        return redirect('/dashboard')->with('delete', 'Task "' . $task->title . '" deleted.');
+        return redirect('dashboard')->with('delete', 'Task "' . $task->title . '" deleted.');
     }
 
     public function deleteFile(TaskFile $file){
         if ($file->task->user_id !== auth()->id()) {
-            return redirect('/dashboard');
+            return redirect('dashboard');
         }
 
         if (Storage::disk('public')->exists($file->path)) {
@@ -162,7 +162,7 @@ class TaskController extends Controller
 
     public function taskDetail(Task $task){
         if ($task->user_id !== auth()->id()) {
-            return redirect('/dashboard');
+            return redirect('dashboard');
         }
 
         //to get the category details

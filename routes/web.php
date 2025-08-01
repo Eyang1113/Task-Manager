@@ -36,7 +36,9 @@ Route::middleware('auth')->group(function () {
 
     //Subtask control
     Route::post('/createSubtask/{task}', [SubtaskController::class, 'createSubtask'])->name('create.subtask');
-    Route::put('/updateSubtask/{task}', [SubtaskController::class, 'updateSubtask'])->name('update.subtask');
+    Route::put('/updateSubtask/{task}', [SubtaskController::class, 'updateSubtaskStatus'])->name('update.subtask_status');
+    Route::get('/editSubtask/{task}/{subtask}', [SubtaskController::class, 'editSubtask'])->name('edit.subtask');
+    Route::put('/updateSubtask/{task}/{subtask}', [SubtaskController::class, 'updateSubtask'])->name('update.subtask');
     Route::get('/deleteSubtask/{task}/{subtask}', [SubtaskController::class, 'deleteSubtask'])->name('delete.subtask');
 
     //Reminder control

@@ -9,34 +9,35 @@ use Illuminate\Validation\Rule;
 
 class DashboardController extends Controller
 {
-
-    public function dashboardView(Request $request)
-    {
+    public function dashboardView(Request $request){
         $user = auth()->user();
         $query = $user->taskRelation()->with('fileRelation', 'category');
         $filter = $request->input('filter');
         $categoryId = $request->input('category_id');
 
-        // Apply filtering
-        if (in_array($filter, ['todo', 'in_progress', 'done'])) {
-            $query->where('status', $filter)
-                ->orderby('priority', 'desc');
-        } elseif ($filter === 'overdue') {
-            $query->where('due_date', '<', Carbon::now('Asia/Kuala_Lumpur'))
-                ->whereIn('status', ['todo', 'in_progress']);
-        } elseif ($filter === 'due-date') {
-            $query->orderBy('due_date', 'asc')
-                ->orderby('priority', 'desc');
-        } else {
-            $query->orderby('priority', 'desc')
-                ->orderBy('id', 'asc');
+        if ($categoryId != 0) {
+            $query->where('category_id', $categoryId);
         }
 
-        if (!empty($categoryId)) {
-            $query->where('category_id', $categoryId);
-        } else {
-            $query->orderby('priority', 'desc')
-                ->orderBy('id', 'asc');
+        switch ($filter) {
+            case 'todo':
+            case 'in_progress':
+            case 'done':
+                $query->where('status', $filter)
+                    ->orderBy('priority', 'desc');
+                break;
+            case 'overdue':
+                $query->where('due_date', '<', Carbon::now('Asia/Kuala_Lumpur'))
+                    ->whereIn('status', ['todo', 'in_progress']);
+                break;
+            case 'due-date':
+                $query->orderBy('due_date', 'asc')
+                    ->orderBy('priority', 'desc');
+                break;
+            default:
+                $query->orderBy('priority', 'desc')
+                    ->orderBy('id', 'asc');
+                break;
         }
 
         $tasks = $query->get();
@@ -62,8 +63,7 @@ class DashboardController extends Controller
 
     public function createCategory(Request $request) {
         $incomingData = $request -> validate([
-            'category_name' => ['required',
-                Rule::unique('categories', 'category_name')->where('user_id', auth()->id())],
+            'category_name' => ['required', Rule::unique('categories', 'category_name')->where('user_id', auth()->id())],
         ]);
 
         $incomingData['category_name'] = strip_tags($incomingData['category_name']);
@@ -76,7 +76,7 @@ class DashboardController extends Controller
 
     public function deleteCategory(Category $category) {
         if ($category->user_id !== auth()->id()) {
-            return redirect('/dashboard');
+            return redirect('dashboard');
         }
 
         $categoryCount = Category::where('user_id', auth()->id())->count();

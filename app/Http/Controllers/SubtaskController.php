@@ -10,7 +10,7 @@ class SubtaskController extends Controller
 {
     public function createSubtask(Request $request, Task $task) {
         if ($task->user_id !== auth()->id()) {
-            return redirect('/dashboard');
+            return redirect('dashboard');
         }
 
         $incomingData = $request -> validate([
@@ -27,9 +27,9 @@ class SubtaskController extends Controller
             ->with('success', 'Subtask "' . $incomingData['title'] . '" created successfully.');
     }
 
-    public function updateSubtask(Request $request, Task $task){
+    public function updateSubtaskStatus(Request $request, Task $task){
         if ($task->user_id !== auth()->id()) {
-            return redirect('/dashboard');
+            return redirect('dashboard');
         }
 
         $checkedIds = $request->input('subtask', []);
@@ -46,9 +46,42 @@ class SubtaskController extends Controller
             ->with('success', 'Subtask statuses updated successfully.');
     }
 
+    public function editSubtask(Task $task, Subtask $subtask) {
+        if ($task->user_id !== auth()->id()) {
+            return redirect('dashboard');
+        }
+
+        // Ensure the subtask belongs to the task
+        if ($subtask->task_id !== $task->id) {
+            return redirect('dashboard');
+        }
+
+        return view('editSubtask', [
+            'task' => $task,
+            'subtask' => $subtask,
+        ]);
+    }
+
+    public function updateSubtask(Request $request, Task $task, Subtask $subtask){
+        if ($task->user_id !== auth()->id()) {
+            return redirect('dashboard');
+        }
+
+        $incomingData = $request->validate([
+            'title' => ['required'],
+        ]);
+
+        $incomingData['title'] = strip_tags($incomingData['title']);
+
+        $subtask->update($incomingData);
+
+        return redirect()->route('task.detail', ['task' => $task->id])
+            ->with('success', 'Subtask "' . $incomingData['title'] . '" updated successfully.');
+    }
+
     public function deleteSubtask(Task $task, Subtask $subtask){
         if ($task->user_id !== auth()->id()) {
-            return redirect('/dashboard');
+            return redirect('dashboard');
         }
 
         $subtask->delete();

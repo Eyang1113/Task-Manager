@@ -34,27 +34,36 @@
                 </div>
                 <div class="bg-gray-100 dark:bg-gray-700 p-6 rounded-lg shadow-md">
                     <h2 class="text-2xl font-semibold mb-4">View Subtasks</h2>
-                    <form method="POST" action="{{ route('update.subtask', ['task' => $task->id]) }}">
+                    <form method="POST" action="{{ route('update.subtask_status', ['task' => $task->id]) }}">
                         @csrf
                         @method('PUT')
                         @if($subtasks->count())
                             <div class="grid grid-flow-col grid-cols-3 grid-rows-5 gap-y-3 gap-x-6">
                                 @foreach($subtasks as $subtask)
                                     <label
-                                        class="flex items-center space-x-3 text-gray-900 dark:text-white cursor-pointer">
-                                        <input
-                                            type="checkbox"
-                                            name="subtask[]"
-                                            value="{{ $subtask->id }}"
-                                            {{ $subtask->is_done ? 'checked' : '' }}
-                                            class="form-checkbox h-5 w-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:focus:ring-blue-400 dark:ring-offset-gray-800"
-                                        >
-                                        <span class="text-base">{{ $subtask->title }}</span>
-                                        <a href="{{ route('delete.subtask', ['task' => $task->id, 'subtask' => $subtask->id]) }}">
-                                            <img src="{{ asset('image/close.png') }}"
-                                                 alt="delete"
-                                                 class="w-5 h-5 cursor-pointer">
-                                        </a>
+                                        class="flex justify-between items-center text-gray-900 dark:text-white cursor-pointer bg-gray-900 p-1 rounded">
+                                        <div class="flex items-center space-x-2">
+                                            <input
+                                                type="checkbox"
+                                                name="subtask[]"
+                                                value="{{ $subtask->id }}"
+                                                {{ $subtask->is_done ? 'checked' : '' }}
+                                                class="form-checkbox h-5 w-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:focus:ring-blue-400 dark:ring-offset-gray-800"
+                                            >
+                                            <span class="text-base">{{ $subtask->title }}</span>
+                                        </div>
+                                        <div class="flex space-x-2 ml-4">
+                                            <a href="{{ route('edit.subtask', ['task' => $task->id, 'subtask' => $subtask->id]) }}">
+                                                <img src="{{ asset('image/edit.png') }}"
+                                                     alt="edit"
+                                                     class="w-4 h-4 cursor-pointer invert">
+                                            </a>
+                                            <a href="{{ route('delete.subtask', ['task' => $task->id, 'subtask' => $subtask->id]) }}">
+                                                <img src="{{ asset('image/close.png') }}"
+                                                     alt="delete"
+                                                     class="w-4 h-4 cursor-pointer">
+                                            </a>
+                                        </div>
                                     </label>
                                 @endforeach
                             </div>

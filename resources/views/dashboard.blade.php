@@ -101,13 +101,11 @@
                             </select>
                         </p>
                     </label>
-                </form>
-                <form method="GET" action="{{ route('dashboard') }}">
                     <label>
                         <p class="block px-3 py-2 rounded">Filter by category
                             <select name="category_id" onchange="this.form.submit()"
                                     class="block w-full px-3 py-2 rounded bg-white text-black dark:bg-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-700">
-                                <option value="" {{ request('category_id') == '' ? 'selected' : '' }}>All</option>
+                                <option value="0" {{ request('category_id') == '' ? 'selected' : '' }}>All</option>
                                 @foreach($categories as $category)
                                     <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
                                         {{ $category->category_name }}
@@ -135,19 +133,6 @@
                     <div class="bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                         <div class="flex items-center justify-between">
                             <h1 class="text-3xl font-semibold pt-6 px-6 text-gray-900 dark:text-gray-100">Task Board</h1>
-                            <!-- <form method="GET" action="{{ route('dashboard') }}">
-                                <label>
-                                    <select name="filter" onchange="this.form.submit()"
-                                            class="mr-6 mt-6 bg-gray-900 hover:bg-gray-600 text-white font-semibold rounded shadow">
-                                        <option value="all" {{ request('filter') === 'all' ? 'selected' : '' }}>All</option>
-                                        <option value="todo" {{ request('filter') === 'todo' ? 'selected' : '' }}>To Do</option>
-                                        <option value="in_progress" {{ request('filter') === 'in_progress' ? 'selected' : '' }}>In Progress</option>
-                                        <option value="done" {{ request('filter') === 'done' ? 'selected' : '' }}>Done</option>
-                                        <option value="due-date" {{ request('filter') === 'due-date' ? 'selected' : '' }}>Due Date</option>
-                                        <option value="overdue" {{ request('filter') === 'overdue' ? 'selected' : '' }}>Overdue</option>
-                                    </select>
-                                </label>
-                            </form> -->
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6 text-gray-900 dark:text-gray-100">
                             @forelse($tasks as $task)
