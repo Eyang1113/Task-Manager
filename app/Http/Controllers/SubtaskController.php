@@ -45,7 +45,7 @@ class SubtaskController extends Controller
         }
 
         return redirect()->route('task.detail', ['task' => $task->id])
-            ->with('success', 'Subtask statuses updated successfully.');
+            ->with('success', 'Subtask status updated successfully.');
     }
 
     public function editSubtask(Task $task, Subtask $subtask) {
