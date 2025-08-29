@@ -23,13 +23,13 @@ Route::get('/counter', HelloWorld::class);
 Route::get('/birds', BirdCount::class);
 Route::get('/lazy', Lazy::class)->lazy();
 
-Route::get('/tasks', \App\Livewire\TaskList::class)->name('tasks');
-Route::get('/createTask(lw)', \App\Livewire\AddTask::class);
-Route::get('/editTask(lw)/{taskId}', \App\Livewire\EditTask::class);
-Route::get('/taskDetail(lw)/{taskId}', \App\Livewire\TaskDetail::class);
-Route::get('/editSubtask(lw)/{taskId}/{subtaskId}', \App\Livewire\EditSubtask::class);
-
 Route::middleware('auth')->group(function () {
+    Route::get('/tasks', \App\Livewire\TaskList::class)->name('tasks');
+    Route::get('/createTask(lw)', \App\Livewire\AddTask::class);
+    Route::get('/editTask(lw)/{taskId}', \App\Livewire\EditTask::class);
+    Route::get('/taskDetail(lw)/{taskId}', \App\Livewire\TaskDetail::class);
+    Route::get('/editSubtask(lw)/{taskId}/{subtaskId}', \App\Livewire\EditSubtask::class);
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

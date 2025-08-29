@@ -22,7 +22,7 @@ class AddTask extends Component
     public string $due_date;
 
     #[Validate('required')]
-    public string $category;
+    public string $category = '';
 
     #[Validate('required')]
     public string $status = 'todo';

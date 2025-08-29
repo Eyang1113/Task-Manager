@@ -1,4 +1,4 @@
-<div>
+
     @php
         use Illuminate\Support\Carbon;
         use App\Models\Task;
@@ -90,4 +90,4 @@
             </div>
         </div>
     </div>
-</div>
+
