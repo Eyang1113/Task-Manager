@@ -10,14 +10,23 @@ use Livewire\Component;
 class TaskDetail extends Component
 {
     public $categories = [];
+
     public $task;
 
+    public $selectedSubtasks = [];
+
     public string $title;
+
     public string $description;
+
     public string $due_date;
+
     public string $category;
+
     public string $status = 'todo';
+
     public int $priority = 0;
+
     public $pdf;
 
     // Subtask properties (keep validation only for these)
@@ -59,6 +68,19 @@ class TaskDetail extends Component
         session()->flash('delete', 'Subtask "'.$title.'" deleted.');
     }
 
+    public function updateSubtaskStatus($taskId)
+    {
+        Subtask::where('task_id', $taskId)->update(['is_done' => false]);
+
+        if (! empty($this->selectedSubtasks)) {
+            Subtask::whereIn('id', $this->selectedSubtasks)
+                ->where('task_id', $taskId) // safety check
+                ->update(['is_done' => true]);
+        }
+
+        session()->flash('success', 'Subtasks updated successfully.');
+    }
+
     public function mount($taskId)
     {
         if ($user = auth()->user()) {
@@ -83,6 +105,11 @@ class TaskDetail extends Component
             'subtasks' => SubTask::where('task_id', $this->task->id)
                 ->orderBy('id')
                 ->get(),
+
+            $this->selectedSubtasks = Subtask::where('task_id', $this->task->id)
+                ->where('is_done', true)
+                ->pluck('id')
+                ->toArray(),
         ]);
     }
 }

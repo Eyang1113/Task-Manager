@@ -68,7 +68,7 @@
                     </p>
                 </div>
                 <div>
-                    <form method="POST" action="{{ route('update.subtask_status', ['task' => $task->id]) }}">
+                    <form wire:submit.prevent="updateSubtaskStatus({{ $task->id }})">
                         <label class="block text-lg font-medium mb-2">Subtasks:</label>
                         <div class="overflow-x-auto rounded-lg shadow">
                             <table class="min-w-full text-left text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 rounded-lg">
@@ -83,8 +83,9 @@
                                     @foreach($subtasks as $subtask)
                                         <tr class="border-b border-gray-300 dark:border-gray-600">
                                             <td class="px-4 py-2">
-                                                <input type="checkbox" name="subtask[]" value="{{ $subtask->id }}"
-                                                       {{ $subtask->is_done ? 'checked' : '' }}
+                                                <input type="checkbox"
+                                                       value="{{ $subtask->id }}"
+                                                       wire:model="selectedSubtasks"
                                                        class="form-checkbox h-5 w-5 text-blue-600 bg-gray-100 border-gray-300 rounded dark:bg-gray-800 dark:border-gray-600">
                                             </td>
                                             <td class="px-4 py-2 text-sm font-medium">{{ $subtask->title }}</td>
